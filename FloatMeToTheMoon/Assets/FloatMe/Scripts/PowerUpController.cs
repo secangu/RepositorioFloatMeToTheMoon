@@ -11,34 +11,68 @@ namespace FloatMeToTheMoon
         private float baseSpeed;
 
 
-        [Header("SpeedBoost PowerUP")]
+        [Header("********************* SpeedBoost PowerUP *********************")]
+        [Space(10)]
         [SerializeField] float maxSpeed;
         [SerializeField] float speedBoostTime;
 
-        [Header("SpeedReduction PowerUP")]
+        [Header("********************* SpeedReduction PowerUP *****************")]
+        [Space(10)]
         [SerializeField] float minSpeed;
         [SerializeField] float speedReductionTime;
 
-        [Header("Rewind PowerUP")]
+        [Header("********************* Rewind PowerUP *************************")]
+        [Space(10)]
         [SerializeField] int rewindWaitTime;
         [SerializeField] bool canRewind;
         [SerializeField] bool playerHit;
         [SerializeField] List<Vector2> positions = new List<Vector2>();
+        Coroutine rewindCoroutine;
 
+        [Header("******************** Shield PowerUp **************************")]
+        [Space(10)]
+        [SerializeField] private bool isShieldActive;
+        [SerializeField] private GameObject shield;
+        [SerializeField] private AnimationClip shieldEndAnimation;
+        private Animator shieldAnimator;
         private void Awake()
         {
             playerMovement = GetComponent<PlayerMovement>();
+            //shieldAnimator = shield.GetComponent<Animator>();
         }
 
         private void Start()
         {
             baseSpeed = playerMovement.Speed;
+            rewindCoroutine = StartCoroutine(RewindCoroutine());
         }
-        private void Update()
+        private void FixedUpdate()
         {
             Rewind();
         }
+        private void Rewind()
+        {
+            if (canRewind && !playerHit)
+            {
+                positions.Insert(0, transform.position);
+            }
+            if (positions.Count > 0 && playerHit && canRewind)
+            {
+                StopCoroutine(rewindCoroutine);
+                transform.position = positions[0];
+                positions.RemoveAt(0);
+                playerMovement.Speed = 0;
 
+                if (positions.Count == 0)
+                {
+                    playerMovement.Speed = baseSpeed;
+
+                    canRewind = false;
+                    playerHit = false;
+                    positions.Clear();
+                }
+            }
+        }
 
         IEnumerator SpeedBoostCoroutine()
         {
@@ -60,9 +94,9 @@ namespace FloatMeToTheMoon
 
         IEnumerator RewindCoroutine()
         {
-
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(rewindWaitTime);
             canRewind = false;
+            positions.Clear();
         }
 
         IEnumerator CoinCollectionCoroutine()
@@ -70,27 +104,14 @@ namespace FloatMeToTheMoon
             yield return new WaitForSeconds(speedBoostTime);
         }
 
-        private void Rewind()
+        IEnumerator ShieldCoroutine()
         {
-            if (canRewind && !playerHit)
-            {
-                positions.Insert(0, transform.position);
-            }
-            if (positions.Count > 0 && playerHit && canRewind)
-            {
-                StopCoroutine(RewindCoroutine());
-                transform.position = positions[0];
-                positions.RemoveAt(0);
-                playerMovement.Speed = 0;
 
-                if (positions.Count == 0)
-                {
-                    canRewind = false;
-                    playerHit = false;
-                    playerMovement.Speed = baseSpeed;
-                }
-            }
+            yield return new WaitForSeconds(shieldEndAnimation.length);
+            isShieldActive = false;
         }
+
+
 
 
 
@@ -107,19 +128,23 @@ namespace FloatMeToTheMoon
                 StartCoroutine(SpeedReductionCoroutine());
 
             }
-            else if (other.CompareTag("OxygenRefill"))
-            {
-                // Implementa la lógica para OxygenRefill
-            }
             else if (other.CompareTag("Rewind"))
             {
                 StartCoroutine(RewindCoroutine());
                 canRewind = true;
                 other.gameObject.SetActive(false);
             }
+            else if (other.CompareTag("OxygenRefill"))
+            {
+
+            }
             else if (other.CompareTag("CoinCollection"))
             {
                 StartCoroutine(CoinCollectionCoroutine());
+            }
+            else if (other.CompareTag("Shield"))
+            {
+                isShieldActive = true;
             }
         }
 
@@ -127,7 +152,14 @@ namespace FloatMeToTheMoon
         {
             if (other.gameObject.CompareTag("Obstacle"))
             {
-                playerHit = true;
+                if (isShieldActive)
+                {
+                    StartCoroutine(ShieldCoroutine());
+                }
+                else
+                {
+                    playerHit = true;
+                }
             }
         }
     }
