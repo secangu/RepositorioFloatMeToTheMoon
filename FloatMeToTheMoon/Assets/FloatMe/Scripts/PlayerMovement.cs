@@ -7,17 +7,18 @@ namespace FloatMeToTheMoon.Player
     {
         [SerializeField] private float speed;
         [SerializeField] private float sensitivityAdjustX;
+        [SerializeField] private bool isMoving;
 
+        Animator animator;
         public float Speed { get => speed; set => speed = value; }
 
         private void Awake()
         {
-            // Inicialización, si es necesario
+            animator = GetComponent<Animator>();
         }
 
         private void Start()
         {
-            // Inicialización, si es necesario
         }
 
         private void FixedUpdate()
@@ -38,17 +39,36 @@ namespace FloatMeToTheMoon.Player
                 // Verificar si el toque se desplaza horizontalmente
                 if (touch.phase == TouchPhase.Moved)
                 {
+
                     // Obtener el cambio de posición en el eje X
                     float adjustHorizontal = touch.deltaPosition.x * sensitivityAdjustX;
-
                     // Calcular nueva posición
                     Vector3 newPosition = transform.position + Vector3.right * adjustHorizontal * Time.deltaTime;
 
                     // Limitar la posición en el eje X para evitar que el objeto salga de la pantalla
                     float limitX = Mathf.Clamp(newPosition.x, -1.5f, 1.5f);
                     transform.position = new Vector3(limitX, newPosition.y, newPosition.z);
+                    isMoving = true;
+
+                    if (adjustHorizontal < 0)
+                    {
+                        transform.localScale = new Vector2(Mathf.Abs(transform.localScale.x) * -1, transform.localScale.y);
+                    }
+                    else if (adjustHorizontal > 0)
+                    {
+                        transform.localScale = new Vector2(Mathf.Abs(transform.localScale.x), transform.localScale.y);
+                    }
+
                 }
             }
+            else
+            {
+                isMoving = false;
+            }
+
+
+            animator.SetBool("Move", isMoving);
+
         }
     }
 }

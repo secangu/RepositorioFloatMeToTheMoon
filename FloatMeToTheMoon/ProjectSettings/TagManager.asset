@@ -9,6 +9,9 @@ TagManager:
   - OxygenRefill
   - CoinCollection
   - Rewind
+  - Coin
+  - Shield
+  - Obstacle
   layers:
   - Default
   - TransparentFX
