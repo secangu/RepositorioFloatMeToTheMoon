@@ -7,9 +7,8 @@ namespace FloatMeToTheMoon
     {
         [SerializeField] private float airTotal;
         [SerializeField] private float air;
-        [SerializeField] private bool dead;
-        PlayerMovement playerMovement;
-        Animator animator;
+        private PlayerMovement playerMovement;
+        private Animator animator;
         private void Awake()
         {
             playerMovement = GetComponent<PlayerMovement>();
@@ -18,32 +17,48 @@ namespace FloatMeToTheMoon
         private void Start()
         {
             air = airTotal;
-
         }
         private void Update()
         {
+            float previousAir = air;
             air -= Time.deltaTime * playerMovement.Speed;
             animator.SetFloat("Air", air);
 
-            //70% de AireTotal(100) es 70 y el 30% 30  
-
-            if (air >= airTotal * 70 / 100 && dead) ///esta lleno
+            // Verificar si el valor de air ha cruzado de positivo a negativo
+            if (previousAir > 0 && air <= 0)
             {
-
+                PlayerDied();
             }
-            else if (air < airTotal * 70 / 100 && dead) ///esta a la mitad
-            {
 
+
+            //70% de AireTotal(100) es 70 y el 30% 30            
+        }
+        public void PlayerDied()
+        {
+            playerMovement.enabled = false;
+            this.GetComponent<Collider2D>().enabled = false;
+
+            if (air >= airTotal * 70 / 100) ///esta lleno
+            {
+                animator.Play("100%Dead");
             }
-            else if (air < airTotal * 30 / 100 && dead) /// esta en las ultimas
+            else if (air >= airTotal * 30 / 100) ///esta a la mitad
             {
-
-            }else if(air <= 0) ///Se desinflo
+                animator.Play("70%Dead");
+            }
+            else  /// esta en las ultimas
             {
-                
+                animator.Play("30%Dead");
             }
         }
+        public void IncreaseAir(float addAir)
+        {
+            air += addAir;
 
-
+            if (air >= airTotal)
+            {
+                air = airTotal;
+            }
+        }
     }
 }

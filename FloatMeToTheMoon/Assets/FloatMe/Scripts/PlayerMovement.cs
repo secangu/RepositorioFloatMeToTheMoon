@@ -19,6 +19,7 @@ namespace FloatMeToTheMoon.Player
 
         private void Start()
         {
+            transform.position = new Vector2(0, 0);
         }
 
         private void FixedUpdate()

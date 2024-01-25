@@ -7,25 +7,26 @@ namespace FloatMeToTheMoon
 {
     public class PowerUpController : MonoBehaviour
     {
-        PlayerMovement playerMovement;
+        private PlayerMovement playerMovement;
+        private AirController airController;
         private float baseSpeed;
 
         [Header("********************* SpeedBoost PowerUP *********************")]
         [Space(10)]
-        [SerializeField] float maxSpeed;
-        [SerializeField] float speedBoostTime;
+        [SerializeField] private float maxSpeed;
+        [SerializeField] private float speedBoostTime;
 
         [Header("********************* SpeedReduction PowerUP *****************")]
         [Space(10)]
-        [SerializeField] float minSpeed;
-        [SerializeField] float speedReductionTime;
+        [SerializeField] private float minSpeed;
+        [SerializeField] private float speedReductionTime;
 
         [Header("********************* Rewind PowerUP *************************")]
         [Space(10)]
-        [SerializeField] int rewindWaitTime;
-        [SerializeField] bool canRewind;
-        [SerializeField] bool playerHit;
-        [SerializeField] List<Vector2> positions = new List<Vector2>();
+        [SerializeField] private int rewindWaitTime;
+        [SerializeField] private bool canRewind;
+        [SerializeField] private bool playerHit;
+        [SerializeField] private List<Vector2> positions = new List<Vector2>();
         Coroutine rewindCoroutine;
 
         [Header("******************** CoinCollection PowerUp ******************")]
@@ -46,6 +47,7 @@ namespace FloatMeToTheMoon
         private void Awake()
         {
             playerMovement = GetComponent<PlayerMovement>();
+            airController = GetComponent<AirController>();
             shieldAnimator = shield.GetComponent<Animator>();
         }
 
@@ -55,22 +57,13 @@ namespace FloatMeToTheMoon
             baseSpeed = playerMovement.Speed;
             rewindCoroutine = StartCoroutine(RewindCoroutine());
         }
+        private void Update()
+        {
+            CoinCollection();
+        }
         private void FixedUpdate()
         {
             Rewind();
-
-            if (isCoinCollectionActive)
-            {
-                Collider2D[] coins = Physics2D.OverlapBoxAll(coinCollection.position, coinCollectionArea, 0);
-                foreach (Collider2D collider in coins)
-                {
-                    if (collider.CompareTag("Coin"))
-                    {
-                        Debug.Log("a");
-                        collider.transform.position = Vector2.MoveTowards(collider.transform.position, transform.position, coinSpeed * Time.deltaTime);
-                    }
-                }
-            }
         }
 
         IEnumerator SpeedBoostCoroutine()
@@ -135,6 +128,20 @@ namespace FloatMeToTheMoon
                 }
             }
         }
+        private void CoinCollection()
+        {
+            if (isCoinCollectionActive)
+            {
+                Collider2D[] coins = Physics2D.OverlapBoxAll(coinCollection.position, coinCollectionArea, 0);
+                foreach (Collider2D collider in coins)
+                {
+                    if (collider.CompareTag("Coin"))
+                    {
+                        collider.transform.position = Vector2.MoveTowards(collider.transform.position, transform.position, coinSpeed * Time.deltaTime);
+                    }
+                }
+            }
+        }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
@@ -156,7 +163,9 @@ namespace FloatMeToTheMoon
             }
             else if (other.CompareTag("OxygenRefill"))
             {
-
+                float random;
+                random = Random.Range(20, 50);
+                airController.IncreaseAir(random);
             }
             else if (other.CompareTag("CoinCollection"))
             {
@@ -180,6 +189,11 @@ namespace FloatMeToTheMoon
                 else
                 {
                     playerHit = true;
+                }
+
+                if (!canRewind && !isShieldActive && playerHit)
+                {
+                    airController.PlayerDied();
                 }
             }
         }
