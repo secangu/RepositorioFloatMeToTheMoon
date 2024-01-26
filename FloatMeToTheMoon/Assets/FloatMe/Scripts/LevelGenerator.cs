@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace FloatMeToTheMoon
@@ -11,6 +9,7 @@ namespace FloatMeToTheMoon
         [SerializeField] private float minDistance;
         [SerializeField] private int initialQuantity;
         [SerializeField] private GameObject finalPart; // Nueva variable para la parte final
+        [SerializeField] private bool infinity; // Nueva variable para la parte final
 
         private Transform player;
 
@@ -27,16 +26,16 @@ namespace FloatMeToTheMoon
             }
 
             // Después de generar las partes iniciales, agrega la parte final
-            GenerateFinalPart();
+            if (!infinity) GenerateFinalPart();
         }
 
         private void Update()
         {
             //Para hacer el nivel infinito
-            //if (Vector2.Distance(player.position, endPoint.position) < minDistance)
-            //{
-            //    GenerateLevelParts();
-            //}
+            if (infinity && Vector2.Distance(player.position, endPoint.position) < minDistance)
+            {
+                GenerateLevelParts();
+            }
         }
 
         private void GenerateLevelParts()
