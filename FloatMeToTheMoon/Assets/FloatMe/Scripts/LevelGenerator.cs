@@ -7,10 +7,10 @@ namespace FloatMeToTheMoon
         [SerializeField] private GameObject[] levelParts;
         [SerializeField] private Transform endPoint;
         [SerializeField] private float minDistance;
-        [SerializeField] private int initialQuantity;
         [SerializeField] private GameObject finalPart; // Nueva variable para la parte final
         [SerializeField] private bool infinity; // Nueva variable para la parte final
 
+        private int currentIndex;
         private Transform player;
 
         private void Awake()
@@ -20,13 +20,15 @@ namespace FloatMeToTheMoon
 
         private void Start()
         {
-            for (int i = 0; i < initialQuantity; i++)
+            currentIndex = 0;
+
+
+            for (int i = 0; i < levelParts.Length; i++)
             {
                 GenerateLevelParts();
             }
+                GenerateFinalPart(); // Después de generar las partes iniciales, agrega la parte final
 
-            // Después de generar las partes iniciales, agrega la parte final
-            if (!infinity) GenerateFinalPart();
         }
 
         private void Update()
@@ -34,24 +36,22 @@ namespace FloatMeToTheMoon
             //Para hacer el nivel infinito
             if (infinity && Vector2.Distance(player.position, endPoint.position) < minDistance)
             {
-                GenerateLevelParts();
+                GenerateFinalPart();
             }
         }
 
         private void GenerateLevelParts()
         {
-            int random = Random.Range(0, levelParts.Length);
-            GameObject level = Instantiate(levelParts[random], endPoint.position, Quaternion.identity);
+            GameObject level = Instantiate(levelParts[currentIndex], endPoint.position, Quaternion.identity);
             endPoint = FindEndPoint(level);
-        }
 
+            currentIndex++; // Avanzamos al siguiente índice en la lista
+        }
         private void GenerateFinalPart()
         {
-            // Asegúrate de que la parte final tenga un punto de conexión ("EndPoint")
             GameObject finalLevel = Instantiate(finalPart, endPoint.position, Quaternion.identity);
             endPoint = FindEndPoint(finalLevel);
         }
-
         private Transform FindEndPoint(GameObject levelPart)
         {
             Transform point = null;

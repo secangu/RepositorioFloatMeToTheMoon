@@ -47,7 +47,7 @@ namespace FloatMeToTheMoon.Player
                     Vector3 newPosition = transform.position + Vector3.right * adjustHorizontal * Time.deltaTime;
 
                     // Limitar la posición en el eje X para evitar que el objeto salga de la pantalla
-                    float limitX = Mathf.Clamp(newPosition.x, -1.5f, 1.5f);
+                    float limitX = Mathf.Clamp(newPosition.x, -1.15f, 1.15f);
                     transform.position = new Vector3(limitX, newPosition.y, newPosition.z);
                     isMoving = true;
 

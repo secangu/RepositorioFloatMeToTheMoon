@@ -5,7 +5,7 @@ namespace FloatMeToTheMoon
 {
     public class AirController : MonoBehaviour
     {
-        [SerializeField] private float airTotal;
+        [SerializeField] private float airTotal, air70, air30;
         [SerializeField] private float air;
         private PlayerMovement playerMovement;
         private Animator animator;
@@ -17,6 +17,8 @@ namespace FloatMeToTheMoon
         private void Start()
         {
             air = airTotal;
+            air70 = airTotal * 70 / 100;
+            air30 = airTotal * 30 / 100;
         }
         private void Update()
         {
@@ -38,11 +40,11 @@ namespace FloatMeToTheMoon
             playerMovement.enabled = false;
             this.GetComponent<Collider2D>().enabled = false;
 
-            if (air >= airTotal * 70 / 100) ///esta lleno
+            if (air >= air70) ///esta lleno
             {
                 animator.Play("100%Dead");
             }
-            else if (air >= airTotal * 30 / 100) ///esta a la mitad
+            else if (air >= air30) ///esta a la mitad
             {
                 animator.Play("70%Dead");
             }

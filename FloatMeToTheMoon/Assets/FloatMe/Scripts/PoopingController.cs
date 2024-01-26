@@ -34,6 +34,9 @@ namespace FloatMeToTheMoon
             if (other.CompareTag("Player"))
             {
                 this.transform.SetParent(other.transform);
+                float random;
+                random = Random.Range(2, 5);
+                other.GetComponent<AirController>().IncreaseAir(random);
             }
         }
     }

@@ -53,7 +53,10 @@ namespace FloatMeToTheMoon
 
         private void Start()
         {
+            //Desactiva Power Ups al iniciar
             coinCollection.gameObject.SetActive(false);
+            shield.SetActive(false);
+
             baseSpeed = playerMovement.Speed;
             rewindCoroutine = StartCoroutine(RewindCoroutine());
         }
