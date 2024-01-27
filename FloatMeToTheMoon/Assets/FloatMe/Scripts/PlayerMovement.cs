@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace FloatMeToTheMoon.Player
 {
-    [RequireComponent(typeof(Rigidbody2D), typeof(CapsuleCollider2D))]
+    [RequireComponent(typeof(Rigidbody2D), typeof(CircleCollider2D))]
     public class PlayerMovement : MonoBehaviour
     {
         [SerializeField] private float speed;
