@@ -11,6 +11,7 @@ namespace FloatMeToTheMoon
         [SerializeField] private float speed;
         [SerializeField] private int maxPoops;
         [SerializeField] private float poopingTimer;
+        [SerializeField] private float limitMapX;
 
         [SerializeField] private List<GameObject> poops = new List<GameObject>();
 
@@ -22,7 +23,6 @@ namespace FloatMeToTheMoon
         private void Update()
         {
             transform.Translate(direction * speed * Time.deltaTime);
-
             poopingTimer -= Time.deltaTime;
             if (poopingTimer <= 0)
             {
@@ -36,6 +36,17 @@ namespace FloatMeToTheMoon
                 }
                 ResetPoopingTimer();
             }
+            if (direction.x >= 1 && transform.position.x > limitMapX)
+            {
+                float randomY = Random.Range(1,10.5f);
+                transform.position = new Vector2(-limitMapX,randomY);
+            }
+            else if (direction.x <= 1 && transform.position.x < -limitMapX)
+            {
+                float randomY = Random.Range(1, 10.5f);
+                transform.position = new Vector2(limitMapX, randomY); 
+            }
+
         }
 
         private void Pooping()

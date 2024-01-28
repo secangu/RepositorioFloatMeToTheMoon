@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c220caecb6f83644ebbe772cc620065e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fallSpeed: 3
+  fallSpeed: 1.5
   poopAnimation: {fileID: 7400000, guid: 5629eeaded24fc841888479f31f6b6e5, type: 2}
 --- !u!212 &7877042115116690666
 SpriteRenderer:

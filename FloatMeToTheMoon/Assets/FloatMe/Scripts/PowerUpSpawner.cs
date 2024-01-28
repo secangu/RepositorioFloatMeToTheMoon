@@ -56,7 +56,7 @@ namespace FloatMeToTheMoon
 
         private void ResetTimer(ref float spawnInterval, PowerUpData data)
         {
-            spawnInterval = Random.Range(5, data.spawnInterval);
+            spawnInterval = Random.Range(data.spawnInterval-5, data.spawnInterval);
         }
 
         private GameObject CreatePowerUp(PowerUpData data)

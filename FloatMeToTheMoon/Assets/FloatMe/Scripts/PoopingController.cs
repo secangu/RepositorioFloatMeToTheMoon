@@ -16,6 +16,10 @@ namespace FloatMeToTheMoon
         private void Update()
         {
             if (!hit) transform.Translate(Vector2.down * fallSpeed * Time.deltaTime);
+            if (transform.position.y < -2)
+            {
+                StartCoroutine(DeactivatePoop());
+            }
         }
 
         IEnumerator DeactivatePoop()
@@ -26,16 +30,20 @@ namespace FloatMeToTheMoon
 
             yield return new WaitForSeconds(poopAnimation.length);
             gameObject.SetActive(false);
+            hit = false;
         }
         private void OnTriggerEnter2D(Collider2D other)
         {
+            this.GetComponent<Collider2D>().enabled = true;
+
             StartCoroutine(DeactivatePoop());
 
             if (other.CompareTag("Player"))
             {
+
                 this.transform.SetParent(other.transform);
                 float random;
-                random = Random.Range(-2, -5);
+                random = Random.Range(-5, -2);
                 other.GetComponent<AirController>().IncreaseAir(random);
             }
         }
