@@ -257,7 +257,7 @@ namespace FloatMeToTheMoon
 
                 if (!canRewind && !isShieldActive && playerHit)
                 {
-                    airController.PlayerDied();
+                    airController.PlayerDied(2);
                     audioSource.PlayOneShot(deathSound);
                 }
             }
@@ -269,8 +269,10 @@ namespace FloatMeToTheMoon
             }
             if (other.gameObject.CompareTag("Moon"))
             {
-                other.GetComponent<Animator>().Play("");
-                airController.PlayerDied();
+                Animator moonAnimator = other.GetComponent<Animator>();
+
+                moonAnimator.Play(moonAnimator.GetCurrentAnimatorStateInfo(0).fullPathHash, 0, 0);
+                airController.PlayerDied(4);
                 audioSource.PlayOneShot(deathSound);
             }
         }

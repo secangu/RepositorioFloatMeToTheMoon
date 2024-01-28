@@ -10803,6 +10803,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 545009212}
     - target: {fileID: 8921778502920548668, guid: 4284844d3f33f314296ee800901963e0, type: 3}
+      propertyPath: airPercentText
+      value: 
+      objectReference: {fileID: 900401943}
+    - target: {fileID: 8921778502920548668, guid: 4284844d3f33f314296ee800901963e0, type: 3}
       propertyPath: airPorcentText
       value: 
       objectReference: {fileID: 900401943}

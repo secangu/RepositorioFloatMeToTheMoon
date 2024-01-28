@@ -37,7 +37,7 @@ namespace FloatMeToTheMoon
             // Verificar si el valor de air ha cruzado de positivo a negativo
             if (previousAir > 0 && Air <= 0)
             {
-                PlayerDied();
+                PlayerDied(2);
                 Debug.Log("0 air");
 
             }
@@ -45,7 +45,7 @@ namespace FloatMeToTheMoon
 
             //70% de AireTotal(100) es 70 y el 30% 30            
         }
-        public void PlayerDied()
+        public void PlayerDied(float time)
         {
             playerMovement.enabled = false;
             this.GetComponent<Collider2D>().enabled = false;
@@ -63,7 +63,7 @@ namespace FloatMeToTheMoon
                 animator.Play("30%Dead");
             }
             GetComponent<AirController>().enabled = false;
-            Invoke("ActivateObject", 2f);
+            Invoke("ActivateObject", time);
 
         }
 
