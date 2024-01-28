@@ -54,6 +54,7 @@ namespace FloatMeToTheMoon
             {
                 animator.Play("30%Dead");
             }
+            GetComponent<AirController>().enabled = false;   
         }
         public void IncreaseAir(float addAir)
         {

@@ -17352,41 +17352,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3656944881803420438, guid: 4284844d3f33f314296ee800901963e0, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4144578527388628124, guid: 4284844d3f33f314296ee800901963e0, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -10
-      objectReference: {fileID: 0}
     - target: {fileID: 4203395745999873651, guid: 4284844d3f33f314296ee800901963e0, type: 3}
       propertyPath: maxSpeed
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4203395745999873651, guid: 4284844d3f33f314296ee800901963e0, type: 3}
-      propertyPath: coinSpeed
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4203395745999873651, guid: 4284844d3f33f314296ee800901963e0, type: 3}
-      propertyPath: speedBoostTime
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4203395745999873651, guid: 4284844d3f33f314296ee800901963e0, type: 3}
-      propertyPath: speedReductionTime
-      value: 5
+      propertyPath: minSpeed
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5038634819244144607, guid: 4284844d3f33f314296ee800901963e0, type: 3}
       propertyPath: m_Name
       value: Player(Floaty)
       objectReference: {fileID: 0}
-    - target: {fileID: 6275741831776157212, guid: 4284844d3f33f314296ee800901963e0, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7112044724075205979, guid: 4284844d3f33f314296ee800901963e0, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 5
+    - target: {fileID: 5674078970958942488, guid: 4284844d3f33f314296ee800901963e0, type: 3}
+      propertyPath: speed
+      value: 0.7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -17467,14 +17447,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 373d601b2860b7e40b5972affdae2d61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speedBoost: {fileID: 0}
+  speedBoostEndAnimation: {fileID: 0}
   maxSpeed: 3
   speedBoostTime: 13
+  slowness: {fileID: 0}
+  slownessEndAnimation: {fileID: 0}
   minSpeed: 0.5
   speedReductionTime: 8
+  rewind: {fileID: 0}
+  rewindEndAnimation: {fileID: 0}
   rewindWaitTime: 10
   canRewind: 0
   playerHit: 0
   positions: []
+  coinAttractor: {fileID: 0}
+  coinAttractorEndAnimation: {fileID: 0}
   coinCollection: {fileID: 8984311719045780406}
   coinCollectionArea: {x: 6.35, y: 4.17}
   coinCollectionTime: 15
