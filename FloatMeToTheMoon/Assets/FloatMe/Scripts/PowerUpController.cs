@@ -12,6 +12,10 @@ namespace FloatMeToTheMoon
         private AirController airController;
         private float previousAir;
         private float baseSpeed;
+        private AudioSource audioSource;
+        [SerializeField] private AudioClip oxygenSound;
+        [SerializeField] private AudioClip coinSound;
+        [SerializeField] private AudioClip deathSound;
 
         [Header("********************* SpeedBoost PowerUP *********************")]
         [Space(10)]
@@ -19,6 +23,7 @@ namespace FloatMeToTheMoon
         [SerializeField] private AnimationClip speedBoostEndAnimation;
         [SerializeField] private float maxSpeed;
         [SerializeField] private float speedBoostTime;
+        [SerializeField] private AudioClip speedBoostSound;
 
         [Header("********************* SpeedReduction PowerUP *****************")]
         [Space(10)]
@@ -26,14 +31,17 @@ namespace FloatMeToTheMoon
         [SerializeField] private AnimationClip slownessEndAnimation;
         [SerializeField] private float minSpeed;
         [SerializeField] private float speedReductionTime;
+        [SerializeField] private AudioClip slownessSound;
 
-        [Header("********************* Rewind PowerUP *************************")]
+
+       [Header("********************* Rewind PowerUP *************************")]
         [Space(10)]
         [SerializeField] private GameObject rewind;
         [SerializeField] private AnimationClip rewindEndAnimation;
         [SerializeField] private int rewindWaitTime;
         [SerializeField] private bool canRewind;
         [SerializeField] private bool playerHit;
+        [SerializeField] private AudioClip rewindSound;
         [SerializeField] private List<Vector2> positions = new List<Vector2>();
         private Coroutine rewindCoroutine;
 
@@ -46,18 +54,23 @@ namespace FloatMeToTheMoon
         [SerializeField] private float coinCollectionTime;
         [SerializeField] private float coinSpeed;
         [SerializeField] private bool isCoinCollectionActive;
+        [SerializeField] private AudioClip coinAttractorSound;
+
 
         [Header("******************** Shield PowerUp **************************")]
         [Space(10)]
         [SerializeField] private GameObject shield;
         [SerializeField] private AnimationClip shieldEndAnimation;
         [SerializeField] private bool isShieldActive;
+        [SerializeField] private AudioClip shieldSound;
+
 
         private void Awake()
         {
             playerMovement = GetComponent<PlayerMovement>();
             airController = GetComponent<AirController>();
             scoreManager = FindObjectOfType<ScoreManager>();
+            audioSource = GetComponent<AudioSource>();
         }
 
         private void Start()
@@ -184,18 +197,21 @@ namespace FloatMeToTheMoon
             /////////Power Ups
             if (other.CompareTag("SpeedBoost"))
             {
+                audioSource.PlayOneShot(speedBoostSound);
                 StartCoroutine(SpeedBoostCoroutine());
                 speedBoost.SetActive(true);
                 other.gameObject.SetActive(false);
             }
             else if (other.CompareTag("SpeedReduction"))
             {
+                audioSource.PlayOneShot(slownessSound);
                 StartCoroutine(SpeedReductionCoroutine());
                 slowness.SetActive(true);
                 other.gameObject.SetActive(false);
             }
             else if (other.CompareTag("Rewind"))
             {
+                audioSource.PlayOneShot(rewindSound);
                 StartCoroutine(RewindCoroutine());
                 previousAir = airController.Air;
                 canRewind = true;
@@ -204,6 +220,7 @@ namespace FloatMeToTheMoon
             }
             else if (other.CompareTag("OxygenRefill"))
             {
+                audioSource.PlayOneShot(oxygenSound);
                 float random;
                 random = Random.Range(5, 20);
                 airController.IncreaseAir(random);
@@ -211,6 +228,7 @@ namespace FloatMeToTheMoon
             }
             else if (other.CompareTag("CoinCollection"))
             {
+                audioSource.PlayOneShot(coinAttractorSound);
                 StartCoroutine(CoinCollectionCoroutine());
                 isCoinCollectionActive = true;
                 coinAttractor.SetActive(true);
@@ -218,6 +236,7 @@ namespace FloatMeToTheMoon
             }
             else if (other.CompareTag("Shield"))
             {
+                audioSource.PlayOneShot(shieldSound);
                 coinCollection.gameObject.SetActive(true);
                 shield.SetActive(true);
                 isShieldActive = true;
@@ -239,10 +258,12 @@ namespace FloatMeToTheMoon
                 if (!canRewind && !isShieldActive && playerHit)
                 {
                     airController.PlayerDied();
+                    audioSource.PlayOneShot(deathSound);
                 }
             }
             if (other.gameObject.CompareTag("Coin"))
             {
+                audioSource.PlayOneShot(coinAttractorSound);
                 scoreManager.CollectCoin();
                 other.gameObject.SetActive(false);
             }

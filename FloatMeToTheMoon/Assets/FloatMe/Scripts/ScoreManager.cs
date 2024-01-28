@@ -15,11 +15,13 @@ namespace FloatMeToTheMoon
         [SerializeField] private float highScore;
         [SerializeField] private int coinsCollected;
         private Vector3 lastPlayerPosition;
-        [SerializeField] private TextMeshProUGUI score_Text;
-        [SerializeField] private TextMeshProUGUI highScore_Text;
-        [SerializeField] private TextMeshProUGUI coinsCollected_Text;
+
+        [SerializeField] private TextMeshProUGUI[] scoreTexts;
+        [SerializeField] private TextMeshProUGUI[] highScoreTexts;
+        [SerializeField] private TextMeshProUGUI[] coinsCollectedTexts;
+
         private string encryptionKey = "FMTTMKGSGGJCOL01";
-        
+
         private void Awake()
         {
             player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -34,6 +36,11 @@ namespace FloatMeToTheMoon
         private void Update()
         {
             CalculateScore();
+
+            // Update the UI elements using arrays
+            UpdateTextArray(scoreTexts, "{0:0.0}", currentScore);
+            UpdateTextArray(highScoreTexts, "Best Score:\n{0:0.0}", highScore); 
+            UpdateTextArray(coinsCollectedTexts, "X{0}", coinsCollected);
         }
 
         void CalculateScore()
@@ -71,6 +78,7 @@ namespace FloatMeToTheMoon
             GameData data = new GameData
             {
                 CoinsCollected = coinsCollected,
+
                 HighScore = highScore  // Agrega el puntaje máximo al objeto de datos
             };
 
@@ -162,6 +170,14 @@ namespace FloatMeToTheMoon
                         }
                     }
                 }
+            }
+        }
+
+        private void UpdateTextArray(TextMeshProUGUI[] textArray, string format, object value)
+        {
+            for (int i = 0; i < textArray.Length; i++)
+            {
+                textArray[i].text = string.Format(format, value);
             }
         }
     }
