@@ -32,19 +32,15 @@ namespace FloatMeToTheMoon
         [SerializeField] private List<LevelPartPrefab> levelParts;
         [SerializeField] private Transform initialEndPoint;
         [SerializeField] private float minDistance;
-        [SerializeField] private Image infinityModeButton;
-        [SerializeField] private Sprite infinityModeON;
-        [SerializeField] private Sprite infinityModeOFF;
+        [SerializeField] private bool isInfiniteMode;
 
         private Transform player;
         private Transform endPoint;
-        private LevelPartType lastGeneratedPart;
-
-        [SerializeField] private bool isInfiniteMode = false;
-
+        private GameController gameController;        
         private void Awake()
         {
             player = GameObject.FindGameObjectWithTag("Player")?.transform;
+            gameController = FindObjectOfType<GameController>();
             if (player == null)
             {
                 Debug.LogError("Player null");
@@ -53,9 +49,8 @@ namespace FloatMeToTheMoon
 
         private void Start()
         {
+            isInfiniteMode = gameController.IsInfiniteMode;
             endPoint = initialEndPoint;
-
-            ToggleInfinityMode(isInfiniteMode); // Configura el sprite inicial
 
             foreach (LevelPartType partType in levelOrder)
             {
@@ -65,6 +60,7 @@ namespace FloatMeToTheMoon
                     break;
                 }
                 GenerateLevelPart(partType);
+
             }
         }
 
@@ -74,11 +70,9 @@ namespace FloatMeToTheMoon
             {
                 // Genera aleatoriamente entre la parte 9 y 10
                 LevelPartType randomPartType = Random.Range(0, 2) == 0 ? LevelPartType.Part9 : LevelPartType.Part10;
-
-                // Borra el nivel anterior y genera uno nuevo
-                ClearLevel();
                 GenerateLevelPart(randomPartType);
             }
+
         }
 
         private void GenerateLevelPart(LevelPartType partType)
@@ -89,15 +83,11 @@ namespace FloatMeToTheMoon
             {
                 int randomIndex = Random.Range(0, partPrefab.prefabs.Length);
                 GameObject levelPart = Instantiate(partPrefab.prefabs[randomIndex], endPoint.position, Quaternion.identity);
-
-                levelPart.transform.SetParent(transform);
-
                 endPoint = FindEndPoint(levelPart);
-                lastGeneratedPart = partType;
             }
             else
             {
-                Debug.LogError("Prefab en array no está asignado para LevelPartType: " + partType);
+                Debug.LogError("Prefab en array no esta asignado para LevelPartType: " + partType);
             }
         }
 
@@ -115,32 +105,6 @@ namespace FloatMeToTheMoon
             }
 
             return point;
-        }
-
-        private void ToggleInfinityMode(bool enable)
-        {
-            isInfiniteMode = enable;
-            infinityModeButton.sprite = enable ? infinityModeON : infinityModeOFF;
-        }
-
-        public void ToggleInfinityMode()
-        {
-            // Cambia entre infinito y no infinito
-            ClearLevel();
-            ToggleInfinityMode(!isInfiniteMode);
-            Start(); // Reinicia la generación de niveles con el nuevo modo
-        }
-
-        private void ClearLevel()
-        {
-            // Destruye todos los hijos del objeto LevelGenerator (excepto este script)
-            foreach (Transform child in transform)
-            {
-                if (child != transform)
-                {
-                    Destroy(child.gameObject);
-                }
-            }
         }
     }
 }

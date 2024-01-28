@@ -10,6 +10,7 @@ namespace FloatMeToTheMoon
         private PlayerMovement playerMovement;
         private ScoreManager scoreManager;
         private AirController airController;
+        private float previousAir;
         private float baseSpeed;
 
         [Header("********************* SpeedBoost PowerUP *********************")]
@@ -154,6 +155,7 @@ namespace FloatMeToTheMoon
 
                 if (positions.Count == 0)
                 {
+                    airController.Air = previousAir;
                     playerMovement.Speed = baseSpeed;
                     rewind.SetActive(false);
                     canRewind = false;
@@ -195,6 +197,7 @@ namespace FloatMeToTheMoon
             else if (other.CompareTag("Rewind"))
             {
                 StartCoroutine(RewindCoroutine());
+                previousAir = airController.Air;
                 canRewind = true;
                 rewind.SetActive(true);
                 other.gameObject.SetActive(false);

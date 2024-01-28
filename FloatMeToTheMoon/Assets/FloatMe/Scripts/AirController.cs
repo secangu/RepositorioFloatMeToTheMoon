@@ -9,6 +9,9 @@ namespace FloatMeToTheMoon
         [SerializeField] private float air;
         private PlayerMovement playerMovement;
         private Animator animator;
+
+        public float Air { get => air; set => air = value; }
+
         private void Awake()
         {
             playerMovement = GetComponent<PlayerMovement>();
@@ -16,18 +19,18 @@ namespace FloatMeToTheMoon
         }
         private void Start()
         {
-            air = airTotal;
+            Air = airTotal;
             air70 = airTotal * 70 / 100;
             air30 = airTotal * 30 / 100;
         }
         private void Update()
         {
-            float previousAir = air;
-            air -= Time.deltaTime * playerMovement.Speed;
-            animator.SetFloat("Air", air);
+            float previousAir = Air;
+            Air -= Time.deltaTime * playerMovement.Speed;
+            animator.SetFloat("Air", Air);
 
             // Verificar si el valor de air ha cruzado de positivo a negativo
-            if (previousAir > 0 && air <= 0)
+            if (previousAir > 0 && Air <= 0)
             {
                 PlayerDied();
                 Debug.Log("0 air");
@@ -42,11 +45,11 @@ namespace FloatMeToTheMoon
             playerMovement.enabled = false;
             this.GetComponent<Collider2D>().enabled = false;
 
-            if (air >= air70) ///esta lleno
+            if (Air >= air70) ///esta lleno
             {
                 animator.Play("100%Dead");
             }
-            else if (air >= air30) ///esta a la mitad
+            else if (Air >= air30) ///esta a la mitad
             {
                 animator.Play("70%Dead");
             }
@@ -54,15 +57,22 @@ namespace FloatMeToTheMoon
             {
                 animator.Play("30%Dead");
             }
-            GetComponent<AirController>().enabled = false;   
+            GetComponent<AirController>().enabled = false;
+            Invoke("ActivateObject", 3f);
+
+        }
+
+        private void ActivateObject()
+        {
+
         }
         public void IncreaseAir(float addAir)
         {
-            air += addAir;
+            Air += addAir;
 
-            if (air >= airTotal)
+            if (Air >= airTotal)
             {
-                air = airTotal;
+                Air = airTotal;
             }
         }
     }
