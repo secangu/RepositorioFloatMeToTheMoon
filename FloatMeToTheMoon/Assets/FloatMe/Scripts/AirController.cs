@@ -11,7 +11,7 @@ namespace FloatMeToTheMoon
         [SerializeField] private GameObject deadScore;
         private PlayerMovement playerMovement;
         private Animator animator;
-        [SerializeField] TextMeshProUGUI airPorcentText;
+        [SerializeField] TextMeshProUGUI airPercentText;
         public float Air { get => air; set => air = value; }
 
         private void Awake()
@@ -31,8 +31,8 @@ namespace FloatMeToTheMoon
             Air -= Time.deltaTime * playerMovement.Speed;
             animator.SetFloat("Air", Air);
 
-            float airPorcent = ((Air / airTotal) * 100);
-            airPorcentText.text = string.Format("{0:0.0}%", airPorcent);
+            float airPercent = ((Air / airTotal) * 100);
+            airPercentText.text = string.Format("{0:0.0}%", airPercent);
 
             // Verificar si el valor de air ha cruzado de positivo a negativo
             if (previousAir > 0 && Air <= 0)

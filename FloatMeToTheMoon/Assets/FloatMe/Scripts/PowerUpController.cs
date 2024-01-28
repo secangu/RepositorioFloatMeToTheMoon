@@ -267,6 +267,12 @@ namespace FloatMeToTheMoon
                 scoreManager.CollectCoin();
                 other.gameObject.SetActive(false);
             }
+            if (other.gameObject.CompareTag("Moon"))
+            {
+                other.GetComponent<Animator>().Play("");
+                airController.PlayerDied();
+                audioSource.PlayOneShot(deathSound);
+            }
         }
         private void OnDrawGizmos()
         {

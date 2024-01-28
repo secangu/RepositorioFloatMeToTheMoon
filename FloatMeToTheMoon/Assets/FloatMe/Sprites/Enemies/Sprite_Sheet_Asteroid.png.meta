@@ -139,12 +139,12 @@ TextureImporter:
       name: Sprite_Sheet_Asteroid_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 2
         y: 2
-        width: 40
+        width: 38
         height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -160,12 +160,12 @@ TextureImporter:
       name: Sprite_Sheet_Asteroid_1
       rect:
         serializedVersion: 2
-        x: 40
+        x: 44
         y: 2
-        width: 40
+        width: 38
         height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -181,12 +181,12 @@ TextureImporter:
       name: Sprite_Sheet_Asteroid_2
       rect:
         serializedVersion: 2
-        x: 80
+        x: 86
         y: 2
-        width: 40
+        width: 38
         height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -202,12 +202,12 @@ TextureImporter:
       name: Sprite_Sheet_Asteroid_3
       rect:
         serializedVersion: 2
-        x: 120
+        x: 128
         y: 2
-        width: 40
+        width: 38
         height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
