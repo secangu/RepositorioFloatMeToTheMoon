@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace FloatMeToTheMoon.Player
 {
@@ -6,11 +7,14 @@ namespace FloatMeToTheMoon.Player
     public class PlayerMovement : MonoBehaviour
     {
         [SerializeField] private float speed;
-        [SerializeField] private float sensitivityAdjustX;
+        [SerializeField] private Slider sensitivitySlider;
+        private float sensitivityAdjustX;
         [SerializeField] private bool isMoving;
 
         Animator animator;
+
         public float Speed { get => speed; set => speed = value; }
+        public float SensitivityAdjustX { get => sensitivityAdjustX; set => sensitivityAdjustX = value; }
 
         private void Awake()
         {
@@ -19,7 +23,23 @@ namespace FloatMeToTheMoon.Player
 
         private void Start()
         {
-            ///transform.position = new Vector2(0, 0.3f);
+            // Configurar el valor inicial del slider y la sensibilidad
+            sensitivitySlider.minValue = 0.1f;
+            sensitivitySlider.maxValue = 0.6f;
+
+            // Si PlayerPrefs contiene la sensibilidad almacenada, úsala; de lo contrario, usa el valor predeterminado
+            if (PlayerPrefs.HasKey("SensitivityAdjustX"))
+            {
+                sensitivityAdjustX = PlayerPrefs.GetFloat("SensitivityAdjustX");
+            }
+            else
+            {
+                sensitivityAdjustX = 0.3f; // Valor predeterminado
+                PlayerPrefs.SetFloat("SensitivityAdjustX", sensitivityAdjustX);
+            }
+
+            sensitivitySlider.value = sensitivityAdjustX;
+            sensitivitySlider.onValueChanged.AddListener(OnSensitivityValueChanged);
         }
 
         private void FixedUpdate()
@@ -34,19 +54,12 @@ namespace FloatMeToTheMoon.Player
 
             if (Input.touchCount > 0)
             {
-                // Obtener el primer toque
                 Touch touch = Input.GetTouch(0);
 
-                // Verificar si el toque se desplaza horizontalmente
                 if (touch.phase == TouchPhase.Moved)
                 {
-
-                    // Obtener el cambio de posición en el eje X
-                    float adjustHorizontal = touch.deltaPosition.x * sensitivityAdjustX;
-                    // Calcular nueva posición
+                    float adjustHorizontal = touch.deltaPosition.x * SensitivityAdjustX;
                     Vector3 newPosition = transform.position + Vector3.right * adjustHorizontal * Time.deltaTime;
-
-                    // Limitar la posición en el eje X para evitar que el objeto salga de la pantalla
                     float limitX = Mathf.Clamp(newPosition.x, -1.15f, 1.15f);
                     transform.position = new Vector3(limitX, newPosition.y, newPosition.z);
                     isMoving = true;
@@ -59,7 +72,6 @@ namespace FloatMeToTheMoon.Player
                     {
                         transform.localScale = new Vector2(Mathf.Abs(transform.localScale.x), transform.localScale.y);
                     }
-
                 }
             }
             else
@@ -67,9 +79,13 @@ namespace FloatMeToTheMoon.Player
                 isMoving = false;
             }
 
-
             animator.SetBool("Move", isMoving);
+        }
 
+        private void OnSensitivityValueChanged(float value)
+        {
+            sensitivityAdjustX = value;
+            PlayerPrefs.SetFloat("SensitivityAdjustX", sensitivityAdjustX);
         }
     }
 }

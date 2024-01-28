@@ -7,8 +7,8 @@ namespace FloatMeToTheMoon
     {
         [SerializeField] private float fallSpeed;
         private bool hit;
-        Animator animator;
-        [SerializeField] AnimationClip poopAnimation;
+        private Animator animator;
+        [SerializeField] private AnimationClip poopAnimation;
         private void Awake()
         {
             animator = GetComponent<Animator>();

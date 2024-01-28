@@ -34,7 +34,7 @@ namespace FloatMeToTheMoon
         [SerializeField] private bool canRewind;
         [SerializeField] private bool playerHit;
         [SerializeField] private List<Vector2> positions = new List<Vector2>();
-        Coroutine rewindCoroutine;
+        private Coroutine rewindCoroutine;
 
         [Header("******************** CoinCollection PowerUp ******************")]
         [Space(10)]

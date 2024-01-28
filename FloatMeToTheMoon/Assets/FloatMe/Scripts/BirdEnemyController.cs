@@ -5,9 +5,9 @@ namespace FloatMeToTheMoon
 {
     public class BirdEnemyController : MonoBehaviour
     {
-        [SerializeField] GameObject poopPrefab;
-        [SerializeField] Transform poopSpawn;
-        [SerializeField] Vector2 direction;
+        [SerializeField] private GameObject poopPrefab;
+        [SerializeField] private Transform poopSpawn;
+        [SerializeField] private Vector2 direction;
         [SerializeField] private float speed;
         [SerializeField] private int maxPoops;
         [SerializeField] private float poopingTimer;

@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
+using TMPro;
 using UnityEngine;
 
 namespace FloatMeToTheMoon
@@ -14,9 +15,11 @@ namespace FloatMeToTheMoon
         [SerializeField] private float highScore;
         [SerializeField] private int coinsCollected;
         private Vector3 lastPlayerPosition;
-
-        private string encryptionKey = "FMTTMKGSGGJCOL01"; 
-
+        [SerializeField] private TextMeshProUGUI score_Text;
+        [SerializeField] private TextMeshProUGUI highScore_Text;
+        [SerializeField] private TextMeshProUGUI coinsCollected_Text;
+        private string encryptionKey = "FMTTMKGSGGJCOL01";
+        
         private void Awake()
         {
             player = GameObject.FindGameObjectWithTag("Player").transform;

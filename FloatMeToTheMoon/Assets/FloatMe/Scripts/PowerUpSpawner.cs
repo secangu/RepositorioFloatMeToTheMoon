@@ -63,6 +63,7 @@ namespace FloatMeToTheMoon
         {
             float randomX = Random.Range(-1.15f, 1.15f);
             GameObject powerUp = Instantiate(data.powerUpPrefab, new Vector2(randomX, spawner.position.y), Quaternion.identity);
+            powerUp.transform.SetParent(transform);
             data.powerUpList.Add(powerUp);
             return powerUp;
         }
