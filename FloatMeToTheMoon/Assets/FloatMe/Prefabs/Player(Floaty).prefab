@@ -529,10 +529,10 @@ Transform:
   - {fileID: 928596936818961782}
   - {fileID: 1226370994069633636}
   - {fileID: 4074398203082243996}
-  - {fileID: 3546010090433493347}
   - {fileID: 6935038592379778195}
-  - {fileID: 7112044724075205979}
+  - {fileID: 3546010090433493347}
   - {fileID: 1964857099348515991}
+  - {fileID: 7112044724075205979}
   - {fileID: 4144578527388628124}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -553,7 +553,7 @@ MonoBehaviour:
   air30: 0
   air: 100
   deadScore: {fileID: 0}
-  airPorcentText: {fileID: 0}
+  airPercentText: {fileID: 0}
 --- !u!114 &4203395745999873651
 MonoBehaviour:
   m_ObjectHideFlags: 0

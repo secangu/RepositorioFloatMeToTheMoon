@@ -34,7 +34,7 @@ namespace FloatMeToTheMoon
         [SerializeField] private AudioClip slownessSound;
 
 
-       [Header("********************* Rewind PowerUP *************************")]
+        [Header("********************* Rewind PowerUP *************************")]
         [Space(10)]
         [SerializeField] private GameObject rewind;
         [SerializeField] private AnimationClip rewindEndAnimation;
@@ -232,6 +232,7 @@ namespace FloatMeToTheMoon
                 StartCoroutine(CoinCollectionCoroutine());
                 isCoinCollectionActive = true;
                 coinAttractor.SetActive(true);
+                coinCollection.gameObject.SetActive(true);
                 other.gameObject.SetActive(false);
             }
             else if (other.CompareTag("Shield"))
@@ -263,7 +264,7 @@ namespace FloatMeToTheMoon
             }
             if (other.gameObject.CompareTag("Coin"))
             {
-                audioSource.PlayOneShot(coinAttractorSound);
+                audioSource.PlayOneShot(coinSound);
                 scoreManager.CollectCoin();
                 other.gameObject.SetActive(false);
             }

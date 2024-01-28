@@ -24,6 +24,14 @@ namespace FloatMeToTheMoon
             // Cargar la escena actual nuevamente
             SceneManager.LoadScene(currentSceneIndex);
         }
+        public void QuitGame()
+        {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+        }
         public void Click()
         {
             GetComponent<AudioSource>().PlayOneShot(clickSound);
