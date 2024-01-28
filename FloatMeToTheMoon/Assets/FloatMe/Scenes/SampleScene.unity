@@ -15398,7 +15398,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2036827790}
-  - component: {fileID: 2036827789}
+  - component: {fileID: 2036827791}
   m_Layer: 0
   m_Name: PowerUpSpawnerController
   m_TagString: Untagged
@@ -15406,31 +15406,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2036827789
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2036827788}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 675cee927c5b7a44d89493c3cdd8fe63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  oxygenPowerUps: []
-  rewindPowerUps: []
-  oxygenPrefab: {fileID: 6781674641254318771, guid: 07cb512a508c1fb44a94df84ae57da00, type: 3}
-  rewindPrefab: {fileID: 6039865658942829527, guid: d49d08cc946e87a48ad61c717f9e3719, type: 3}
-  shieldPrefab: {fileID: 0}
-  slownessPrefab: {fileID: 0}
-  speedBoostPrefab: {fileID: 0}
-  CoinAttractorPrefab: {fileID: 0}
-  spawner: {fileID: 1588489888}
-  spawnIntervalOxygen: 5
-  spawnIntervalRewind: 10
-  maxOxygenPowerUps: 5
-  maxRewindPowerUps: 10
 --- !u!4 &2036827790
 Transform:
   m_ObjectHideFlags: 0
@@ -15446,6 +15421,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2036827791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036827788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675cee927c5b7a44d89493c3cdd8fe63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  powerUpsData:
+  - powerUpList: []
+    powerUpPrefab: {fileID: 6781674641254318771, guid: 07cb512a508c1fb44a94df84ae57da00, type: 3}
+    spawnInterval: 10
+    interval: 0
+    maxPowerUps: 5
+  - powerUpList: []
+    powerUpPrefab: {fileID: 6039865658942829527, guid: d49d08cc946e87a48ad61c717f9e3719, type: 3}
+    spawnInterval: 20
+    interval: 0
+    maxPowerUps: 2
+  - powerUpList: []
+    powerUpPrefab: {fileID: 5775707640092743178, guid: 61c03b5924523314d99f3e80aad3ffa1, type: 3}
+    spawnInterval: 30
+    interval: 0
+    maxPowerUps: 1
+  - powerUpList: []
+    powerUpPrefab: {fileID: 347709535421754730, guid: 2a6e3f9f6e0e44047879491900a6153a, type: 3}
+    spawnInterval: 15
+    interval: 0
+    maxPowerUps: 2
+  - powerUpList: []
+    powerUpPrefab: {fileID: 8807051405129554884, guid: a0726ab01f9a9f8489d1bb9f9ec2b3b7, type: 3}
+    spawnInterval: 10
+    interval: 0
+    maxPowerUps: 3
+  - powerUpList: []
+    powerUpPrefab: {fileID: 7259856991371315471, guid: da222371433c9804db6b43f5cf2abf59, type: 3}
+    spawnInterval: 40
+    interval: 0
+    maxPowerUps: 2
+  spawner: {fileID: 1588489888}
 --- !u!1001 &2110998005
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17337,6 +17356,26 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4144578527388628124, guid: 4284844d3f33f314296ee800901963e0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4203395745999873651, guid: 4284844d3f33f314296ee800901963e0, type: 3}
+      propertyPath: maxSpeed
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4203395745999873651, guid: 4284844d3f33f314296ee800901963e0, type: 3}
+      propertyPath: coinSpeed
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4203395745999873651, guid: 4284844d3f33f314296ee800901963e0, type: 3}
+      propertyPath: speedBoostTime
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4203395745999873651, guid: 4284844d3f33f314296ee800901963e0, type: 3}
+      propertyPath: speedReductionTime
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5038634819244144607, guid: 4284844d3f33f314296ee800901963e0, type: 3}
       propertyPath: m_Name
       value: Player(Floaty)
@@ -17344,6 +17383,10 @@ PrefabInstance:
     - target: {fileID: 6275741831776157212, guid: 4284844d3f33f314296ee800901963e0, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7112044724075205979, guid: 4284844d3f33f314296ee800901963e0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

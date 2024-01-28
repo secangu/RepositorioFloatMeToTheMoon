@@ -5,65 +5,76 @@ namespace FloatMeToTheMoon
 {
     public class PowerUpSpawner : MonoBehaviour
     {
-        [SerializeField] private List<GameObject> oxygenPowerUps = new List<GameObject>();
-        [SerializeField] private List<GameObject> rewindPowerUps = new List<GameObject>();
-        // Add similar lists for other power-ups
+        [Header("Power Up Lists")]
+        [SerializeField] private List<PowerUpData> powerUpsData = new List<PowerUpData>();
 
-        [SerializeField] GameObject oxygenPrefab, rewindPrefab, shieldPrefab, slownessPrefab, speedBoostPrefab, CoinAttractorPrefab;
-        [SerializeField] Transform spawner;
-        [SerializeField] private float spawnIntervalOxygen, spawnIntervalRewind; // Add similar variables for other power-ups
-        [SerializeField] private float maxOxygenPowerUps, maxRewindPowerUps, maxShieldPowerUps, maxSlownessPowerUps, maxSpeedBoostPowerUps, maxCoinAttractorPowerUps;
+        [Header("Spawner Settings")]
+        [SerializeField] private Transform spawner;
 
+        private void Start()
+        {
+            foreach (PowerUpData data in powerUpsData)
+            {
+                ResetTimer(ref data.interval, data);
+            }
+        }
         private void Update()
         {
-            SpawnPowerUp(ref spawnIntervalOxygen, oxygenPowerUps, oxygenPrefab, maxOxygenPowerUps);
-            SpawnPowerUp(ref spawnIntervalRewind, rewindPowerUps, rewindPrefab, maxRewindPowerUps);
-            // Add similar calls for other power-ups
+            foreach (PowerUpData data in powerUpsData)
+            {
+                SpawnPowerUp(data);
+            }
         }
 
-        private void SpawnPowerUp(ref float spawnInterval, List<GameObject> powerUpList, GameObject powerUpPrefab, float maxPowerUps)
+        private void SpawnPowerUp(PowerUpData data)
         {
-            spawnInterval -= Time.deltaTime;
+            data.interval -= Time.deltaTime;
 
-            if (spawnInterval <= 0 && powerUpList.Count < maxPowerUps)
+            if (data.interval <= 0 && data.powerUpList.Count < data.maxPowerUps)
             {
-                CreatePowerUp(powerUpList, powerUpPrefab);
-                ResetTimer(ref spawnInterval);
+                CreatePowerUp(data);
+                ResetTimer(ref data.interval, data);
             }
-            else if (spawnInterval <= 0)
+            else if (data.interval <= 0)
             {
-                SpawnExistingPowerUp(powerUpList);
-                ResetTimer(ref spawnInterval);
+                SpawnExistingPowerUp(data.powerUpList);
+                ResetTimer(ref data.interval, data);
             }
         }
 
         private void SpawnExistingPowerUp(List<GameObject> powerUpList)
         {
             float randomX = Random.Range(-1.15f, 1.15f);
-
             GameObject powerUp = powerUpList.Find(p => !p.activeSelf);
 
-            if (powerUp == null)
+            if (powerUp != null)
             {
-                return;
+                powerUp.SetActive(true);
+                powerUp.transform.position = new Vector2(randomX, spawner.position.y);
             }
-
-            powerUp.SetActive(true);
-            powerUp.transform.position = new Vector2(randomX, spawner.position.y);
         }
 
-        private void ResetTimer(ref float spawnInterval)
+        private void ResetTimer(ref float spawnInterval, PowerUpData data)
         {
-            spawnInterval = Random.Range(1, 6);
+            spawnInterval = Random.Range(5, data.spawnInterval);
         }
 
-        private GameObject CreatePowerUp(List<GameObject> powerUpList, GameObject powerUpPrefab)
+        private GameObject CreatePowerUp(PowerUpData data)
         {
             float randomX = Random.Range(-1.15f, 1.15f);
-
-            GameObject powerUp = Instantiate(powerUpPrefab, new Vector2(randomX, spawner.position.y), Quaternion.identity);
-            powerUpList.Add(powerUp);
+            GameObject powerUp = Instantiate(data.powerUpPrefab, new Vector2(randomX, spawner.position.y), Quaternion.identity);
+            data.powerUpList.Add(powerUp);
             return powerUp;
+        }
+
+        [System.Serializable]
+        private class PowerUpData
+        {
+            public List<GameObject> powerUpList;
+            public GameObject powerUpPrefab;
+            public float spawnInterval;
+            public float interval;
+            public float maxPowerUps;
         }
     }
 }
