@@ -34,6 +34,9 @@ namespace FloatMeToTheMoon
             else if (other.CompareTag("Shield"))
             {
                 other.gameObject.SetActive(false);
+            }else if (other.CompareTag("Coin"))
+            {
+                other.gameObject.SetActive(false);
             }
         }
     }

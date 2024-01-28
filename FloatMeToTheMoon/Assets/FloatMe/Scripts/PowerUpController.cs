@@ -8,6 +8,7 @@ namespace FloatMeToTheMoon
     public class PowerUpController : MonoBehaviour
     {
         private PlayerMovement playerMovement;
+        private ScoreManager scoreManager;
         private AirController airController;
         private float baseSpeed;
 
@@ -55,6 +56,7 @@ namespace FloatMeToTheMoon
         {
             playerMovement = GetComponent<PlayerMovement>();
             airController = GetComponent<AirController>();
+            scoreManager = FindObjectOfType<ScoreManager>();
         }
 
         private void Start()
@@ -85,7 +87,7 @@ namespace FloatMeToTheMoon
 
             yield return new WaitForSeconds(speedBoostTime);
 
-            speedBoost.GetComponent<Animator>().Play(speedBoostEndAnimation.name);
+            if (speedBoost.activeSelf) speedBoost.GetComponent<Animator>().Play(speedBoostEndAnimation.name);
 
             yield return new WaitForSeconds(speedBoostEndAnimation.length);
             speedBoost.SetActive(false);
@@ -98,7 +100,7 @@ namespace FloatMeToTheMoon
 
             yield return new WaitForSeconds(speedReductionTime);
 
-            slowness.GetComponent<Animator>().Play(slownessEndAnimation.name);
+            if (slowness.activeSelf) slowness.GetComponent<Animator>().Play(slownessEndAnimation.name);
 
             yield return new WaitForSeconds(slownessEndAnimation.length);
             slowness.SetActive(false);
@@ -121,7 +123,7 @@ namespace FloatMeToTheMoon
         {
             yield return new WaitForSeconds(coinCollectionTime);
 
-            coinAttractor.GetComponent<Animator>().Play(coinAttractorEndAnimation.name);
+            if (coinAttractor.activeSelf) coinAttractor.GetComponent<Animator>().Play(coinAttractorEndAnimation.name);
 
             yield return new WaitForSeconds(coinAttractorEndAnimation.length);
 
@@ -235,6 +237,11 @@ namespace FloatMeToTheMoon
                 {
                     airController.PlayerDied();
                 }
+            }
+            if (other.gameObject.CompareTag("Coin"))
+            {
+                scoreManager.CollectCoin();
+                other.gameObject.SetActive(false);
             }
         }
         private void OnDrawGizmos()

@@ -681,7 +681,7 @@ GameObject:
   - component: {fileID: 1087775120}
   - component: {fileID: 1087775119}
   m_Layer: 0
-  m_Name: Data
+  m_Name: ScoreManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -991,6 +991,11 @@ MonoBehaviour:
     spawnInterval: 40
     interval: 0
     maxPowerUps: 2
+  - powerUpList: []
+    powerUpPrefab: {fileID: 4355036112589139701, guid: cdc3317fc57a081429447804cb7aa5a3, type: 3}
+    spawnInterval: 10
+    interval: 0
+    maxPowerUps: 5
   spawner: {fileID: 1588489888}
 --- !u!1 &86613635395954854
 GameObject:
@@ -1008,7 +1013,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &218888440840239498
 Transform:
   m_ObjectHideFlags: 0
@@ -1090,7 +1095,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!483693784 &854343366672361502
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -7312,16 +7317,16 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 6592681535217956674}
-  - {fileID: 1975209121}
-  - {fileID: 2036827790}
   - {fileID: 5640166237827325326}
   - {fileID: 6407744046455846839}
   - {fileID: 3308918618920774376}
   - {fileID: 946307212093401993}
+  - {fileID: 1975209121}
+  - {fileID: 2036827790}
+  - {fileID: 1087775120}
   - {fileID: 447360395}
   - {fileID: 519420032}
   - {fileID: 766126190}
   - {fileID: 619394802}
   - {fileID: 484507359}
   - {fileID: 408001708}
-  - {fileID: 1087775120}
