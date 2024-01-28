@@ -88,7 +88,7 @@ namespace FloatMeToTheMoon
             speedBoost.GetComponent<Animator>().Play(speedBoostEndAnimation.name);
 
             yield return new WaitForSeconds(speedBoostEndAnimation.length);
-
+            speedBoost.SetActive(false);
             playerMovement.Speed = baseSpeed;
         }
 
@@ -101,7 +101,7 @@ namespace FloatMeToTheMoon
             slowness.GetComponent<Animator>().Play(slownessEndAnimation.name);
 
             yield return new WaitForSeconds(slownessEndAnimation.length);
-
+            slowness.SetActive(false);
             playerMovement.Speed = baseSpeed;
         }
 
@@ -109,7 +109,7 @@ namespace FloatMeToTheMoon
         {
             yield return new WaitForSeconds(rewindWaitTime);
 
-            rewind.GetComponent<Animator>().Play(rewindEndAnimation.name);
+            if (rewind.activeSelf) rewind.GetComponent<Animator>().Play(rewindEndAnimation.name);
 
             yield return new WaitForSeconds(rewindEndAnimation.length);
             rewind.SetActive(false);
@@ -125,9 +125,9 @@ namespace FloatMeToTheMoon
 
             yield return new WaitForSeconds(coinAttractorEndAnimation.length);
 
-
             isCoinCollectionActive = false;
             coinCollection.gameObject.SetActive(false);
+            coinAttractor.SetActive(false);
         }
 
         IEnumerator ShieldCoroutine()
