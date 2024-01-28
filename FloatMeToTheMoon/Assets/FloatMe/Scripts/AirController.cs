@@ -30,6 +30,8 @@ namespace FloatMeToTheMoon
             if (previousAir > 0 && air <= 0)
             {
                 PlayerDied();
+                Debug.Log("0 air");
+
             }
 
 

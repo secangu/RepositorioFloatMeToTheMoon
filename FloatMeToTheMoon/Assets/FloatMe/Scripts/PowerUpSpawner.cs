@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,24 +5,65 @@ namespace FloatMeToTheMoon
 {
     public class PowerUpSpawner : MonoBehaviour
     {
-        [SerializeField] private GameObject[] powerUpPrefabs;
-        [SerializeField] private float spawnInterval = 5f;
-        [SerializeField] private Vector2 spawnPoint;
+        [SerializeField] private List<GameObject> oxygenPowerUps = new List<GameObject>();
+        [SerializeField] private List<GameObject> rewindPowerUps = new List<GameObject>();
+        // Add similar lists for other power-ups
 
-        private void Start()
+        [SerializeField] GameObject oxygenPrefab, rewindPrefab, shieldPrefab, slownessPrefab, speedBoostPrefab, CoinAttractorPrefab;
+        [SerializeField] Transform spawner;
+        [SerializeField] private float spawnIntervalOxygen, spawnIntervalRewind; // Add similar variables for other power-ups
+        [SerializeField] private float maxOxygenPowerUps, maxRewindPowerUps, maxShieldPowerUps, maxSlownessPowerUps, maxSpeedBoostPowerUps, maxCoinAttractorPowerUps;
+
+        private void Update()
         {
-            // Comienza el proceso de spawn de power-ups
-            InvokeRepeating("SpawnPowerUp", 0f, spawnInterval);
+            SpawnPowerUp(ref spawnIntervalOxygen, oxygenPowerUps, oxygenPrefab, maxOxygenPowerUps);
+            SpawnPowerUp(ref spawnIntervalRewind, rewindPowerUps, rewindPrefab, maxRewindPowerUps);
+            // Add similar calls for other power-ups
         }
 
-        private void SpawnPowerUp()
+        private void SpawnPowerUp(ref float spawnInterval, List<GameObject> powerUpList, GameObject powerUpPrefab, float maxPowerUps)
         {
-            // Selecciona un power-up aleatorio del array de prefabs
-            int randomIndex = Random.Range(0, powerUpPrefabs.Length);
-            GameObject powerUpPrefab = powerUpPrefabs[randomIndex];
+            spawnInterval -= Time.deltaTime;
 
-            // Instancia el power-up en el punto de spawn 
-            Instantiate(powerUpPrefab, spawnPoint, Quaternion.identity);
+            if (spawnInterval <= 0 && powerUpList.Count < maxPowerUps)
+            {
+                CreatePowerUp(powerUpList, powerUpPrefab);
+                ResetTimer(ref spawnInterval);
+            }
+            else if (spawnInterval <= 0)
+            {
+                SpawnExistingPowerUp(powerUpList);
+                ResetTimer(ref spawnInterval);
+            }
+        }
+
+        private void SpawnExistingPowerUp(List<GameObject> powerUpList)
+        {
+            float randomX = Random.Range(-1.15f, 1.15f);
+
+            GameObject powerUp = powerUpList.Find(p => !p.activeSelf);
+
+            if (powerUp == null)
+            {
+                return;
+            }
+
+            powerUp.SetActive(true);
+            powerUp.transform.position = new Vector2(randomX, spawner.position.y);
+        }
+
+        private void ResetTimer(ref float spawnInterval)
+        {
+            spawnInterval = Random.Range(1, 6);
+        }
+
+        private GameObject CreatePowerUp(List<GameObject> powerUpList, GameObject powerUpPrefab)
+        {
+            float randomX = Random.Range(-1.15f, 1.15f);
+
+            GameObject powerUp = Instantiate(powerUpPrefab, new Vector2(randomX, spawner.position.y), Quaternion.identity);
+            powerUpList.Add(powerUp);
+            return powerUp;
         }
     }
 }

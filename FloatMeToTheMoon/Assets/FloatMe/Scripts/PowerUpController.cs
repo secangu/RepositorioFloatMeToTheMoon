@@ -197,6 +197,8 @@ namespace FloatMeToTheMoon
                 if (!canRewind && !isShieldActive && playerHit)
                 {
                     airController.PlayerDied();
+                    Debug.Log("obstavle"+other.name);
+                    
                 }
             }
         }
