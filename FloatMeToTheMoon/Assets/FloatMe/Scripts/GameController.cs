@@ -20,6 +20,8 @@ namespace FloatMeToTheMoon
 
         private void Start()
         {
+            isInfiniteMode = PlayerPrefs.GetInt("isInfiniteMode") == 1 ? true : false;
+
             ToggleInfinityMode(isInfiniteMode);
             // Desactivar objetos que están activados 
             SetObjectsActive(objectsToDeactivate, true);
@@ -54,6 +56,7 @@ namespace FloatMeToTheMoon
         {
             // Cambia entre infinito y no infinito
             ToggleInfinityMode(!isInfiniteMode);
+            PlayerPrefs.SetInt("isInfiniteMode", isInfiniteMode ? 1 : 0);
         }
     }
 }
