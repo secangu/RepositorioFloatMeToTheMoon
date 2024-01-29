@@ -43,7 +43,7 @@ namespace FloatMeToTheMoon.Player
 
         private void FixedUpdate()
         {
-            if (IsMobilePlatform())
+            if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
             {
                 MobileMovement();
             }
@@ -85,6 +85,8 @@ namespace FloatMeToTheMoon.Player
 
         private void MobileMovement()
         {
+            transform.Translate(Vector2.up * Speed * Time.deltaTime);
+
             if (Input.touchCount > 0)
             {
                 Touch touch = Input.GetTouch(0);
@@ -119,11 +121,6 @@ namespace FloatMeToTheMoon.Player
         {
             sensitivityAdjustX = value;
             PlayerPrefs.SetFloat("SensitivityAdjustX", sensitivityAdjustX);
-        }
-
-        private bool IsMobilePlatform()
-        {
-            return Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer;
         }
     }
 }

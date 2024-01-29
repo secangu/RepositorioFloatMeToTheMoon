@@ -164,12 +164,12 @@ namespace FloatMeToTheMoon
                 StopCoroutine(rewindCoroutine);
                 transform.position = positions[0];
                 positions.RemoveAt(0);
-                playerMovement.Speed = 0;
+                playerMovement.enabled = false;
 
                 if (positions.Count == 0)
                 {
                     airController.Air = previousAir;
-                    playerMovement.Speed = baseSpeed;
+                    playerMovement.enabled = true;
                     rewind.SetActive(false);
                     canRewind = false;
                     playerHit = false;
